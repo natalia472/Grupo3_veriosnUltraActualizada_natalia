@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "506365341871",
+    "firebase_url": "https://grupo3-firebase-default-rtdb.firebaseio.com",
+    "project_id": "grupo3-firebase",
+    "storage_bucket": "grupo3-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506365341871:android:d65026f8da1a5befa5e45a",
+        "android_client_info": {
+          "package_name": "com.example.grupo3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIsfO2Wdhskm_9EJgJ-KCVhRvnLtQ8VQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
