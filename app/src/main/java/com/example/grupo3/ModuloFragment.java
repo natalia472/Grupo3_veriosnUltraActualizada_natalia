@@ -95,32 +95,19 @@ public class ModuloFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_asignaturas, container, false);
         contenedorVista = view.findViewById(R.id.listaCards);
-        dbRef= FirebaseDatabase.getInstance().getReference().child("mod").child("mod1");
+        dbRef= FirebaseDatabase.getInstance().getReference().child("mod");
         mod=new Modulo();
-        //card=inflater.inflate(R.layout.cards, container, false);
-        //nombreM=card.findViewById(R.id.nombreModulo);
-        //cicloM=card.findViewById(R.id.ciclo);
-        contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
 
+
+        contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaModulos=new ArrayList<>();
 
-        //Query consulta= dbRef.orderByChild("modulo").equalTo(nom);
-        //listaModulos.add(new Modulo(nom,ciclo,usu));
-        /*nom=mod.getModulo();
-        ciclo=mod.getCiclo();
-        usu=mod.getUsuario();
-        listaModulos.add(new Modulo(mod.getModulo(),mod.getCiclo(),mod.getUsuario()));*/
-        //listaModulos.add(new Modulo("manualidades","DAM","pepe"));
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //Modulo m=ds.getValue(Modulo.class);
-                    /*nom=m.getModulo();
-                    ciclo=m.getCiclo();
-                    usu=m.getUsuario();
-                    listaModulos.add(new Modulo(mod.getModulo(),mod.getCiclo(),mod.getUsuario()));*/
-                    //listaModulos.add(m);
+
                     nom = ds.child("modulo").getValue(String.class);
                     ciclo = ds.child("ciclo").getValue(String.class);
                     usu = ds.child("usuario").getValue(String.class);
@@ -134,38 +121,6 @@ public class ModuloFragment extends Fragment {
 
             }
         });
-
-
-
-        /*consulta.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Modulo m=snapshot.getValue(Modulo.class);
-
-                for(DataSnapshot ds:snapshot.getChildren()){
-                    Modulo m=ds.getValue(Modulo.class);
-                    nom=m.getModulo();
-                    ciclo=m.getCiclo();
-                    usu=m.getUsuario();
-                   listaModulos.add(new Modulo(mod.getModulo(),mod.getCiclo(),mod.getUsuario()));
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
-        //listaModulos.add(new Modulo(nom,ciclo,usu));
-        //listaModulos.add(mod);
-        /*
-        listaModulos.add(new Modulo("Programacion","DAM","Jose"));
-        listaModulos.add(new Modulo("Acceso datos","DAW", "Jose"));
-        listaModulos.add(new Modulo("PSP","DAM", "Jose"));
-        listaModulos.add(new Modulo("Bases de datos","DAW", "Jose"));
-        listaModulos.add(new Modulo("Desarrollo interfaces","DAM", "Jose"));
-        listaModulos.add(new Modulo("Ingles","DAW", "Jose"));
-        listaModulos.add(new Modulo("Sistemas gestion","DAM", "Jose"));
-*/
         miAdaptador = new AdaptadorCards(getContext(),listaModulos);
         contenedorVista.setAdapter(miAdaptador);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
