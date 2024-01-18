@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,11 @@ import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +34,13 @@ import Tablas.Tarea;
  * create an instance of this fragment.
  */
 public class TareasFragment extends Fragment {
+    DatabaseReference dbRef;
+    Tarea tar;
+    ArrayList<Tarea> listaTareas;
+    AdaptadorTareas miAdaptador;
+    String mod,tarea;
+    int idTarea;
+    Date fecha;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,23 +86,33 @@ public class TareasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
+        dbRef= FirebaseDatabase.getInstance().getReference().child("tar");
+        tar=new Tarea();
 
-
-
-        ArrayList<Tarea> listaTareas=new ArrayList<>();
-/*RELLENAR ARRAY*/
-/*PROBAR*/
         contenedorVista = view.findViewById(R.id.listaTareas);
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
-        AdaptadorTareas miAdaptador = new AdaptadorTareas(contenedorVista.getContext(), listaTareas);
+        listaTareas=new ArrayList<>();
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    fecha=ds.child("fechaEntrega").getValue(Date.class);
+                    idTarea=ds.child("id").getValue(Integer.class);
+                    mod=ds.child("modulo").getValue(String.class);
+                    tarea=ds.child("tarea").getValue(String.class);
+                }
+                actualizarInterfazDeUsuario();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        miAdaptador = new AdaptadorTareas(contenedorVista.getContext(), listaTareas);
         contenedorVista.setAdapter(miAdaptador);
-
-
-
-
         miAdaptador.setOnItemClickListener(new AdaptadorCards.OnItemClickListener() {
             @Override
             public void onDeleteButtonClick(int position) {
@@ -132,15 +155,6 @@ public class TareasFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
-
         FloatingActionButton botonNuevaTarea = (FloatingActionButton) view.findViewById(R.id.floatingABtareas);
         botonNuevaTarea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,5 +165,10 @@ public class TareasFragment extends Fragment {
         });
 
         return view;
+    }
+    private void actualizarInterfazDeUsuario() {
+        // Crea un adaptador para mostrar la lista de módulos en tu interfaz de usuario
+        miAdaptador = new AdaptadorTareas(getContext(), listaTareas);
+        contenedorVista.setAdapter(miAdaptador);
     }
 }

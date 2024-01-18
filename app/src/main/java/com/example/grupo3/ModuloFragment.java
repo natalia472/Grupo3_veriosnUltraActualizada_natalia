@@ -46,8 +46,6 @@ public class ModuloFragment extends Fragment {
     ArrayList<Modulo> listaModulos;
     AdaptadorCards miAdaptador;
     String nom,ciclo,usu;
-    TextView nombreM, cicloM;
-    View card;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -98,7 +96,6 @@ public class ModuloFragment extends Fragment {
         dbRef= FirebaseDatabase.getInstance().getReference().child("mod");
         mod=new Modulo();
 
-
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaModulos=new ArrayList<>();
 
@@ -123,8 +120,6 @@ public class ModuloFragment extends Fragment {
         });
         miAdaptador = new AdaptadorCards(getContext(),listaModulos);
         contenedorVista.setAdapter(miAdaptador);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-        TextView nombreModulo= (TextView) view.findViewById(R.id.nombreModulo);
         // Configurar el listener para eliminar la tarjeta al hacer clic en el botón
         miAdaptador.setOnItemClickListener(new AdaptadorCards.OnItemClickListener() {
             @Override
