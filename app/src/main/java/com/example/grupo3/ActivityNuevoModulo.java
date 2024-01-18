@@ -30,15 +30,11 @@ public class ActivityNuevoModulo extends AppCompatActivity {
         botonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder=new AlertDialog.Builder(v.getContext());
-
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Estás a punto de guardar un nuevo módulo, si estás seguro haz clic en 'aceptar'");
                 builder.setIcon(android.R.drawable.ic_dialog_info);
-
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mod=new Modulo();
@@ -72,7 +68,6 @@ public class ActivityNuevoModulo extends AppCompatActivity {
                         barra.show();
                     }
                 });
-
                 builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -85,6 +80,5 @@ public class ActivityNuevoModulo extends AppCompatActivity {
                 cuadroDialogo.show();
             }
         });
-
     }
 }

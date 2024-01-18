@@ -1,40 +1,24 @@
 package com.example.grupo3;
-
-import static android.app.Activity.RESULT_OK;
-import static android.content.Intent.getIntent;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-
 import Tablas.Modulo;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ModuloFragment#newInstance} factory method to
@@ -104,19 +88,15 @@ public class ModuloFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     //Modulo m=ds.getValue(Modulo.class);
-
                     nom = ds.child("modulo").getValue(String.class);
                     ciclo = ds.child("ciclo").getValue(String.class);
                     usu = ds.child("usuario").getValue(String.class);
                     listaModulos.add(new Modulo(nom, ciclo, usu));
                 }
-                //listaModulos.add(new Modulo("Programacion","DAM","Joseeeeeee"));
-                actualizarInterfazDeUsuario();
+                miAdaptador.notifyDataSetChanged();
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
         miAdaptador = new AdaptadorCards(getContext(),listaModulos);
         contenedorVista.setAdapter(miAdaptador);
@@ -132,10 +112,12 @@ public class ModuloFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //borrar la card con firebase
-                        /*String nombreM=nombreModulo.getText().toString().trim();
-                        dbRef.child(nombreM).removeValue();*/
+                        //String nombreM=nombreModulo.getText().toString().trim();
+                        //dbRef.child(position).removeValue();
 
                         // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
+                        String clave=listaModulos.get(position).getModulo(); //borra el modulo que este en la posicion que se ha seleccionado para borrar
+                        dbRef.child(clave).removeValue();
                         listaModulos.remove(position);
                         miAdaptador.notifyDataSetChanged();
                     }
@@ -160,7 +142,6 @@ public class ModuloFragment extends Fragment {
                 cuadroDialogo.show();
             }
         });
-
         FloatingActionButton botonNuevoModulo=(FloatingActionButton) view.findViewById(R.id.floatingABmodulo);
         botonNuevoModulo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,52 +150,6 @@ public class ModuloFragment extends Fragment {
                 startActivity(pantallaNuevoModulo);
             }
         });
-
         return view;
     }
-    private void actualizarInterfazDeUsuario() {
-        // Crea un adaptador para mostrar la lista de módulos en tu interfaz de usuario
-        miAdaptador = new AdaptadorCards(getContext(), listaModulos);
-        contenedorVista.setAdapter(miAdaptador);
-    }
-
-    /**
-     * segun de donde venga el resultado se cogera el bundle que
-     * corresponda. Si es 1, cogera el bundle de la actividad
-     * 'actividadnuevomodulo' y llama a un metodo que actualiza el
-     * arraylist de modulos para insertarlo en el mismo
-
-    public void onActivityResult(int requestCode,int resultCode, Intent datos) {
-        super.onActivityResult(requestCode, resultCode, datos);
-        if (requestCode == 1) { //comprueba que el resultado proviene de 'activityNuevoModulo', declarado antes como 1
-            if (resultCode == RESULT_OK) { //comprueba que la actividad anterior se ha realizado correctamente
-                // Se ejecuta cuando se ha añadido un nuevo módulo
-                actualizarListaModulos(); //llama al metodo para actualizar el arraylist
-            }
-        }
-    }
-    // Metodo para actualizar la lista de modulos desde la base de datos
-    private void actualizarListaModulos() {
-        //limpiar la lista actual antes de hacer una nueva consulta
-        listaModulos.clear();
-
-        //hacer la consulta a la base de datos
-        Query consulta = dbRef.orderByChild("ciclo");
-        consulta.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Modulo mod = ds.getValue(Modulo.class);
-                    listaModulos.add(mod); //añadir el modulo a la lista
-                }
-
-                //notificar al adaptador que los datos han cambiado
-                miAdaptador.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-    }*/
-
 }

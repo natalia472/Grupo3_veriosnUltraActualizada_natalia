@@ -1,18 +1,14 @@
 package com.example.grupo3;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
@@ -20,14 +16,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import Tablas.Tarea;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TareasFragment#newInstance} factory method to
@@ -87,10 +78,10 @@ public class TareasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
+        contenedorVista = view.findViewById(R.id.listaTareas);
         dbRef= FirebaseDatabase.getInstance().getReference().child("tar");
         tar=new Tarea();
 
-        contenedorVista = view.findViewById(R.id.listaTareas);
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaTareas=new ArrayList<>();
 
@@ -105,11 +96,8 @@ public class TareasFragment extends Fragment {
                 }
                 actualizarInterfazDeUsuario();
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
         miAdaptador = new AdaptadorTareas(contenedorVista.getContext(), listaTareas);
         contenedorVista.setAdapter(miAdaptador);
@@ -117,16 +105,12 @@ public class TareasFragment extends Fragment {
             @Override
             public void onDeleteButtonClick(int position) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
-
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Vas a eliminar una tarea, si estás seguro haz clic en 'ELIMINAR'");
                 builder.setIcon(android.R.drawable.ic_dialog_info);
-
                 builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
                         listaTareas.remove(position);
                         miAdaptador.notifyDataSetChanged();
@@ -140,7 +124,6 @@ public class TareasFragment extends Fragment {
                         barra.show();
                     }
                 });
-
                 builder.setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

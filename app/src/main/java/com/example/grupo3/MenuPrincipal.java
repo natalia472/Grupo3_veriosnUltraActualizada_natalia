@@ -1,16 +1,13 @@
 package com.example.grupo3;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,11 +30,6 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
 
         encabezado.setOnMenuItemClickListener(this);
         bottomNavigation.setOnItemSelectedListener(this);
-
-
-
-
-
     }
 
     @Override
@@ -55,8 +47,14 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
             startActivity(actividadAcercaDe);
         } else if (item.getItemId() == R.id.itemCerrarSesion) {
             realizado = true;
+            /* esta linea de codiog cierra sesion con el usuario actual para que
+            una vez seleccionada la opcion de cerrar sesion, se desvincule y pueda
+            dar paso a un nuevo usuario registrado para luego mostrar sus datos en
+            el perfil de usuario */
+            FirebaseAuth.getInstance().signOut();
             Intent actividadLogin = new Intent(MenuPrincipal.this, Login.class);
             startActivity(actividadLogin);
+            finish(); //para asegurarse de que el usuario no pueda volver atras
         }
         return realizado;
     }

@@ -27,7 +27,7 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
     private EditText textoCorreo;
     DatabaseReference dbRef;
     Usuario usu;
-    String nomUsuario,nom,contr;
+    String nomUsuario,nom,editarUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
 
         dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
         nomUsuario=getIntent().getStringExtra("nomUsu");
-        contr=getIntent().getStringExtra("contras");
+        editarUsuario=getIntent().getStringExtra("usuarioInicio");
 
         encabezado.setNavigationOnClickListener(this);
         botonCambios.setOnClickListener(this);
@@ -57,8 +57,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Intent actividadPerfil = new Intent(EditarPerfil.this, Perfil.class);
         if (v.getId() == R.id.botonCambiosEditarPerfil) {
-            String nombre = textoNombre.getText().toString();
-            String correo = textoCorreo.getText().toString();
+            String nombre = textoNombre.getText().toString().trim();
+            String correo = textoCorreo.getText().toString().trim();
             if (nombre.isEmpty() || correo.isEmpty()) {
                 Toast.makeText(this, R.string.errorTextosVacíos, Toast.LENGTH_SHORT).show();
             } else {
@@ -67,30 +67,28 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                 usuario.putParcelable("usuario", datosUsuario);
                 actividadPerfil.putExtras(usuario);
                 startActivity(actividadPerfil);*/
-                Query consulta= dbRef.equalTo(contr);
+                Query consulta= dbRef.equalTo(editarUsuario);
                 consulta.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        nom=textoNombre.getText().toString().trim();
-                        String corr=textoCorreo.getText().toString().trim();
                         if(snapshot.exists()){
-                            if(!nom.isEmpty()){
-                                dbRef.child(nom).setValue(nom);
+                            if(!nombre.isEmpty()){
+                                dbRef.child("nombre").setValue(nombre);
                             }
-                            if(!corr.isEmpty()){
-                                dbRef.child(nom).child("correo").setValue(corr);
+                            if(!correo.isEmpty()){
+                                dbRef.child("nombre").child("correo").setValue(correo);
                             }
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
-                actividadPerfil.putExtra("usuario",nom);
+                //actividadPerfil.putExtra("usuario",nom);
                 startActivity(actividadPerfil);
             }
         } else {
             //actividadPerfil.putExtras(usuario);
-            actividadPerfil.putExtra("usuario",nom);
+            //actividadPerfil.putExtra("usuario",nom);
             startActivity(actividadPerfil);
         }
     }

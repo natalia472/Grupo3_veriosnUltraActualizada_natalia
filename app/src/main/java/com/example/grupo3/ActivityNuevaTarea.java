@@ -85,9 +85,7 @@ public class ActivityNuevaTarea extends AppCompatActivity {
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Estás a punto de guardar una nueva tarea, si estás seguro haz clic en 'aceptar'");
                 builder.setIcon(android.R.drawable.ic_dialog_info);
-
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                       /*CODIGO DB*/
@@ -125,7 +123,6 @@ public class ActivityNuevaTarea extends AppCompatActivity {
                         barra.show();
                     }
                 });
-
                 builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

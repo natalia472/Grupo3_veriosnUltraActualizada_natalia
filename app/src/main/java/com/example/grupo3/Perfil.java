@@ -33,7 +33,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_perfil);
 
         usuario = getIntent().getExtras();
-        Usuario datosUsuario = usuario.getParcelable("usuario");
+       // Usuario datosUsuario = usuario.getParcelable("usuario");
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoPerfil);
         textoNombre = findViewById(R.id.textViewNombrePerfil);
@@ -44,9 +44,9 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
 
         dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
         usu=new Usuario();
-        nomUsuario=getIntent().getStringExtra("usuarioRegistro");
+        nomUsuario=getIntent().getStringExtra("usuarioInicio");
         Query consulta=dbRef.equalTo(nomUsuario);
-        consulta.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.orderByChild("nombre").equalTo(nomUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds:snapshot.getChildren()){

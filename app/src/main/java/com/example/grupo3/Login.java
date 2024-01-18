@@ -70,8 +70,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             MenuPrincipal junto con el Bundle con el Usuario correspondiente.*/
             } else{
                 Intent actividadMenuPrincipal = new Intent(Login.this, MenuPrincipal.class);
-                actividadMenuPrincipal.putExtra("nombreUsu",textoNombre.getText().toString());
-                startActivityForResult(actividadMenuPrincipal,3);
+                actividadMenuPrincipal.putExtra("usuarioInicio",textoNombre.getText().toString());
+                startActivity(actividadMenuPrincipal);
 
             /*Si el correo o la contraseña no son iguales a los del usuario de prueba aparecerá un mensaje avisando
             al usuario de ello.*/

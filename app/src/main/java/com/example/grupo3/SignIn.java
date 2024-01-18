@@ -93,11 +93,9 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
                 textoContrasena.setText("");
                 textoConfirmarContrasena.setText("");
                 usuario.putParcelable("usuario", new Usuario(nombre, correo, contrasena));
-                Intent actividadMenuPrincipal = new Intent(SignIn.this, MenuPrincipal.class);
+                Intent actividadMenuPrincipal = new Intent(SignIn.this, Login.class);
                 //actividadMenuPrincipal.putExtras(usuario);
-                actividadMenuPrincipal.putExtra("usuarioRegistro",nombre);
-                actividadMenuPrincipal.putExtra("contras",contrasena);
-                startActivityForResult(actividadMenuPrincipal,2);
+                startActivity(actividadMenuPrincipal);
 
                 //startActivity(actividadMenuPrincipal);
 
