@@ -24,7 +24,7 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
     private Bundle b;
 
     private Usuario datosUsuario;
-    private EditText textoNombre;
+    private EditText textoContrasena;
     private EditText textoCorreo;
     DatabaseReference dbRef;
     Usuario usu;
@@ -41,7 +41,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
         datosUsuario = usuario.getParcelable("usuario");*/
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoEditarPerfil);
-        textoNombre = findViewById(R.id.editTextNombreEditarPerfil);
+        //textoNombre = findViewById(R.id.editTextNombreEditarPerfil);
+        textoContrasena=findViewById(R.id.editTextContrasena);
         textoCorreo = findViewById(R.id.editTextCorreoEditarPerfil);
         FloatingActionButton botonCambios = findViewById(R.id.botonCambiosEditarPerfil);
 
@@ -60,9 +61,9 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Intent actividadPerfil = new Intent(EditarPerfil.this, Perfil.class);
         if (v.getId() == R.id.botonCambiosEditarPerfil) {
-            String nombre = textoNombre.getText().toString().trim();
+            String contrasena = textoContrasena.getText().toString().trim();
             String correo = textoCorreo.getText().toString().trim();
-            if (nombre.isEmpty() || correo.isEmpty()) {
+            if (contrasena.isEmpty() || correo.isEmpty()) {
                 Toast.makeText(this, R.string.errorTextosVacíos, Toast.LENGTH_SHORT).show();
             } else {
                 /*datosUsuario.setNombre(nombre);
@@ -71,16 +72,16 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                 actividadPerfil.putExtras(usuario);
                 startActivity(actividadPerfil);*/
                 //Query consulta= dbRef.equalTo(editarUsuario);
-                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                dbRef.child("usu").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String nombreOriginal=getIntent().getStringExtra("nombreB");
                         if(snapshot.exists()){
-                            if(!nombre.isEmpty()){
-                                dbRef.child(nombreOriginal).child("nombre").setValue(nombre);
+                            if(!contrasena.isEmpty()){
+                                dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
                             }
                             if(!correo.isEmpty()){
-                                dbRef.child(nombreOriginal).child("correo").setValue(correo);
+                                dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
                             }
                         }
                     }

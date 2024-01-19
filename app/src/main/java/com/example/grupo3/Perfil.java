@@ -39,7 +39,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         textoNombre = findViewById(R.id.textViewNombrePerfil);
         textoCorreo = findViewById(R.id.textViewCorreoPerfil);
         FloatingActionButton botonEditarPerfil = findViewById(R.id.botonEditarPerfil);
-        ExtendedFloatingActionButton botonCambiarContrasena = findViewById(R.id.botonCambiarContrasena);
 
 
         dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
@@ -79,7 +78,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
 
         encabezado.setNavigationOnClickListener(this);
         botonEditarPerfil.setOnClickListener(this);
-        botonCambiarContrasena.setOnClickListener(this);
     }
 
     @Override
@@ -89,11 +87,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
             //actividadEditarPerfil.putExtras(usuario);
             actividadEditarPerfil.putExtra("nombreB",nomUsuario);
             startActivity(actividadEditarPerfil);
-        } else if (v.getId() == R.id.botonCambiarContrasena) {
-            Intent actividadCambiarContrasena = new Intent(Perfil.this, CambioContrasena.class);
-            //actividadCambiarContrasena.putExtras(usuario);
-            startActivity(actividadCambiarContrasena);
-        } else {
+        }else {
             Intent actividadMenuPrincipal = new Intent(Perfil.this, MenuPrincipal.class);
             //actividadMenuPrincipal.putExtras(usuario);
             startActivity(actividadMenuPrincipal);
