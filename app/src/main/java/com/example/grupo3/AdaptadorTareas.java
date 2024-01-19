@@ -6,6 +6,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,9 +30,10 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
 
     private ArrayList<Tarea> lista;
     private SparseBooleanArray selectedItems; // Para almacenar la información de selección
-    private AdaptadorCards.OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickListener(AdaptadorCards.OnItemClickListener listener) {
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
@@ -42,12 +44,13 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
         selectedItems = new SparseBooleanArray();
     }
 
-    // Método para actualizar la selección del elemento
     public void setItemSelected(int position, boolean isSelected) {
         selectedItems.put(position, isSelected);
         notifyDataSetChanged();
     }
-
+    public interface OnItemClickListener {
+        void onDeleteButtonClick(int position);
+    }
 
     @NonNull
     @Override
@@ -63,8 +66,8 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
 
         //asociamos elementos
         nombreModulo.setText(lista.get(position).getModulo());
-        nombreTarea.setText(lista.get(position).getModulo());
-        fechaSeleccionada.setText(lista.get(position).getTarea());
+        nombreTarea.setText(lista.get(position).getTarea());
+        fechaSeleccionada.setText(lista.get(position).getFechaEntrega());
 
 
 
@@ -86,7 +89,6 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
                 }
             }
         });
-
 
         return elemento;
     }

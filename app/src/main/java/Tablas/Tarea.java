@@ -1,23 +1,29 @@
 package Tablas;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
 import java.util.Date;
+
 
 public class Tarea {
     private int id;
     private String modulo;
     private String tarea;
-    private Date fechaEntrega;
+    private String fechaEntrega;
 
     public Tarea() {
     }
 
-    public Tarea(String modulo, String tarea, Date fechaEntrega) {
+    public Tarea(String modulo, String tarea, String fechaEntrega) {
         this.modulo = modulo;
         this.tarea = tarea;
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Tarea(int id, String modulo, String tarea, Date fechaEntrega) {
+    public Tarea(int id, String modulo, String tarea, String fechaEntrega) {
         this.id = id;
         this.modulo = modulo;
         this.tarea = tarea;
@@ -51,11 +57,11 @@ public class Tarea {
         this.tarea = tarea;
     }
 
-    public Date getFechaEntrega() {
+    public String getFechaEntrega() {
         return fechaEntrega;
     }
 
-    public void setFechaEntrega(Date fechaEntrega) {
+    public void setFechaEntrega(String fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 }

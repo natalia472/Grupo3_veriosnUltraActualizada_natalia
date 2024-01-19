@@ -36,7 +36,6 @@ public class ActivityNuevaTarea extends AppCompatActivity {
     EditText idT,nomMod,nomTarea;
     DatabaseReference dbRef;
     Tarea tarea;
-    Date utilDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,17 +93,18 @@ public class ActivityNuevaTarea extends AppCompatActivity {
                         String nomM=nomMod.getText().toString().trim();
                         String nomT=nomTarea.getText().toString().trim();
                         String fecha=fechaSeleccionada.getText().toString().trim();
-                        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+                        /*SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
                         Date f= null;
-                        try {
+                        */
+                       /* try {
                             f = sdf.parse(fecha);
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
-                        }
+                        }*/
                         tarea.setId(id);
                         tarea.setModulo(nomM);
                         tarea.setTarea(nomT);
-                        tarea.setFechaEntrega(f);
+                        tarea.setFechaEntrega(fecha);
                         dbRef.child(String.valueOf(id)).setValue(tarea);
 
                         idT.setText("");

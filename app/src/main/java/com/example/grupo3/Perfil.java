@@ -87,6 +87,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         if (v.getId() == R.id.botonEditarPerfil) {
             Intent actividadEditarPerfil = new Intent(Perfil.this, EditarPerfil.class);
             //actividadEditarPerfil.putExtras(usuario);
+            actividadEditarPerfil.putExtra("nombreB",nomUsuario);
             startActivity(actividadEditarPerfil);
         } else if (v.getId() == R.id.botonCambiarContrasena) {
             Intent actividadCambiarContrasena = new Intent(Perfil.this, CambioContrasena.class);

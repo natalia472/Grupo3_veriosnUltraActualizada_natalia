@@ -21,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import Tablas.Usuario;
 
 public class EditarPerfil extends AppCompatActivity implements View.OnClickListener {
-    private Bundle usuario;
+    private Bundle b;
+
     private Usuario datosUsuario;
     private EditText textoNombre;
     private EditText textoCorreo;
@@ -34,6 +35,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
 
+
+
         /*usuario = getIntent().getExtras();
         datosUsuario = usuario.getParcelable("usuario");*/
 
@@ -45,7 +48,7 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
         /*textoNombre.setText(datosUsuario.getNombre());
         textoCorreo.setText(datosUsuario.getCorreo());*/
 
-        dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
+        dbRef= FirebaseDatabase.getInstance().getReference();
         nomUsuario=getIntent().getStringExtra("nomUsu");
         editarUsuario=getIntent().getStringExtra("usuarioInicio");
 
@@ -67,16 +70,17 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                 usuario.putParcelable("usuario", datosUsuario);
                 actividadPerfil.putExtras(usuario);
                 startActivity(actividadPerfil);*/
-                Query consulta= dbRef.equalTo(editarUsuario);
-                consulta.addListenerForSingleValueEvent(new ValueEventListener() {
+                //Query consulta= dbRef.equalTo(editarUsuario);
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String nombreOriginal=getIntent().getStringExtra("nombreB");
                         if(snapshot.exists()){
                             if(!nombre.isEmpty()){
-                                dbRef.child("nombre").setValue(nombre);
+                                dbRef.child(nombreOriginal).child("nombre").setValue(nombre);
                             }
                             if(!correo.isEmpty()){
-                                dbRef.child("nombre").child("correo").setValue(correo);
+                                dbRef.child(nombreOriginal).child("correo").setValue(correo);
                             }
                         }
                     }

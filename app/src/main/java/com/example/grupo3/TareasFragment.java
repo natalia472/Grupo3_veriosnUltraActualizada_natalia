@@ -2,8 +2,10 @@ package com.example.grupo3;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import Tablas.Tarea;
@@ -31,7 +36,7 @@ public class TareasFragment extends Fragment {
     AdaptadorTareas miAdaptador;
     String mod,tarea;
     int idTarea;
-    Date fecha;
+    String fecha;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,8 +46,6 @@ public class TareasFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private ListView contenedorVista;
-
-    Date utilDate;
     public TareasFragment() {
         // Required empty public constructor
     }
@@ -74,34 +77,42 @@ public class TareasFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
         contenedorVista = view.findViewById(R.id.listaTareas);
-        dbRef= FirebaseDatabase.getInstance().getReference().child("tar");
+        dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
         tar=new Tarea();
 
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaTareas=new ArrayList<>();
+        /*fecha=LocalDate.of(2022,12,12);
+        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+        String fechita=sdf.format(fecha);*/
+
+        //listaTareas.add(new Tarea("Juana","paula","12/12/2022"));
+
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    fecha=ds.child("fechaEntrega").getValue(Date.class);
+                    fecha=ds.child("fechaEntrega").getValue(String.class);
                     idTarea=ds.child("id").getValue(Integer.class);
                     mod=ds.child("modulo").getValue(String.class);
                     tarea=ds.child("tarea").getValue(String.class);
+                    listaTareas.add(new Tarea(idTarea,mod,tarea,fecha));
                 }
-                actualizarInterfazDeUsuario();
+                miAdaptador.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-        miAdaptador = new AdaptadorTareas(contenedorVista.getContext(), listaTareas);
+        miAdaptador = new AdaptadorTareas(getContext(), listaTareas);
         contenedorVista.setAdapter(miAdaptador);
-        miAdaptador.setOnItemClickListener(new AdaptadorCards.OnItemClickListener() {
+        miAdaptador.setOnItemClickListener(new AdaptadorTareas.OnItemClickListener() {
             @Override
             public void onDeleteButtonClick(int position) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
@@ -112,6 +123,9 @@ public class TareasFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
+                        String clave= String.valueOf(listaTareas.get(position).getId()); //borra el modulo que este en la posicion que se ha seleccionado para borrar
+                        dbRef.child(clave).removeValue();
+
                         listaTareas.remove(position);
                         miAdaptador.notifyDataSetChanged();
                     }
@@ -149,9 +163,5 @@ public class TareasFragment extends Fragment {
 
         return view;
     }
-    private void actualizarInterfazDeUsuario() {
-        // Crea un adaptador para mostrar la lista de módulos en tu interfaz de usuario
-        miAdaptador = new AdaptadorTareas(getContext(), listaTareas);
-        contenedorVista.setAdapter(miAdaptador);
-    }
+
 }
