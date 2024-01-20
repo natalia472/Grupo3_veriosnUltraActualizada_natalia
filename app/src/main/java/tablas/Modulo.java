@@ -1,4 +1,4 @@
-package Tablas;
+package tablas;
 
 public class Modulo {
 

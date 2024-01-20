@@ -7,18 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import Tablas.Usuario;
+import tablas.Usuario;
 
 public class EditarPerfil extends AppCompatActivity implements View.OnClickListener {
     private Bundle b;
@@ -64,7 +64,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
             String contrasena = textoContrasena.getText().toString().trim();
             String correo = textoCorreo.getText().toString().trim();
             if (contrasena.isEmpty() || correo.isEmpty()) {
-                Toast.makeText(this, R.string.errorTextosVacíos, Toast.LENGTH_SHORT).show();
+                RelativeLayout layout = findViewById(R.id.layoutEditarPerfil);
+                Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
             } else {
                 /*datosUsuario.setNombre(nombre);
                 datosUsuario.setCorreo(correo);
@@ -77,12 +78,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String nombreOriginal=getIntent().getStringExtra("nombreB");
                         if(snapshot.exists()){
-                            if(!contrasena.isEmpty()){
-                                dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
-                            }
-                            if(!correo.isEmpty()){
-                                dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
-                            }
+                            dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
+                            dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
                         }
                     }
                     @Override

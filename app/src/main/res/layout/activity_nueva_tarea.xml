@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/pantallaNuevaTarea"
+    android:id="@+id/layoutNuevaTarea"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +9,13 @@
     android:orientation="vertical"
     tools:context=".ActivityNuevaTarea">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/encabezadoNuevaTarea"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        app:title="Nueva Tarea"
+        app:title="@string/textoNuevaTarea"
         app:titleCentered="true"
         app:navigationIcon="@drawable/arrow_back"/>
 
@@ -28,7 +27,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:hint="ID"
+        android:hint="@string/textoID"
         app:startIconDrawable="@drawable/key"
         app:endIconMode="clear_text">
 
@@ -47,7 +46,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:hint="Nombre Modulo"
+        android:hint="@string/textoNombreModulo"
         app:startIconDrawable="@drawable/info"
         app:endIconMode="clear_text">
 
@@ -66,7 +65,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:hint="Nombre Tarea"
+        android:hint="@string/textoNombreTarea"
         app:startIconDrawable="@drawable/modulo"
         app:endIconMode="clear_text">
 
@@ -77,8 +76,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TIfecha"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -87,16 +84,16 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
-        android:hint="Fecha entrega"
-        app:startIconDrawable="@drawable/calendar"
-        >
+        android:hint="@string/textoFechaEntrega"
+        app:startIconDrawable="@drawable/calendar">
 
         <EditText
             android:id="@+id/fechaEntrega"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="false"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,8 +102,7 @@
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:backgroundTint="@color/purple_500"
-        android:text="Elige fecha"
+        android:text="@string/textoEligeFecha"
         android:textSize="12sp" />
 
     <com.google.android.material.button.MaterialButton
@@ -116,8 +112,6 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:text="REGISTRAR"/>
-
-
+        android:text="@string/textoREGISTRAR"/>
 
 </LinearLayout>

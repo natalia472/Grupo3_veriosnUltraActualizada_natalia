@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/pantallaNuevoModulo"
+    android:id="@+id/layoutNuevoModulo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +9,13 @@
     android:orientation="vertical"
     tools:context=".ActivityNuevoModulo">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/encabezadoNuevoModulo"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        app:title="Nuevo Módulo"
+        app:title="@string/textoNuevoModulo"
         app:titleCentered="true"
         app:navigationIcon="@drawable/arrow_back"/>
 
@@ -28,7 +27,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
-            android:hint="Nombre Módulo"
+            android:hint="@string/textoNombreModulo"
             app:startIconDrawable="@drawable/modulo"
             app:endIconMode="clear_text">
 
@@ -47,7 +46,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
-            android:hint="Ciclo"
+            android:hint="@string/textoCiclo"
             app:startIconDrawable="@drawable/info"
             app:endIconMode="clear_text">
 
@@ -67,8 +66,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
             android:hint="Usuario"
-            app:startIconDrawable="@drawable/user"
-            >
+            app:startIconDrawable="@drawable/user">
 
             <EditText
                 android:id="@+id/usuario"
@@ -78,7 +76,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/botonRegistrarModulo"
             android:layout_width="match_parent"
@@ -86,10 +83,6 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:text="REGISTRAR"/>
-
-
-
-
+            android:text="@string/textoREGISTRAR"/>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package Tablas;
+package tablas;
 
 import android.os.Parcel;
 import android.os.Parcelable;

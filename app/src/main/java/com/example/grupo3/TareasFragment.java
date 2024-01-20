@@ -19,11 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import Tablas.Tarea;
+
+import tablas.Tarea;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TareasFragment#newInstance} factory method to

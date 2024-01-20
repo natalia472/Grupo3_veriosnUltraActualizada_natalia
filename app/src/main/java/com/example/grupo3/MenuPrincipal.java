@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MenuPrincipal extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, Toolbar.OnMenuItemClickListener {
@@ -62,7 +61,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         boolean realizado = false;
-        if (item.getItemId() == R.id.itemAsignaturas) {
+        if (item.getItemId() == R.id.itemModulos) {
             realizado = true;
             navController.navigate(R.id.fragmentAsignaturas, usuario);
         } else if (item.getItemId() == R.id.itemTareas) {

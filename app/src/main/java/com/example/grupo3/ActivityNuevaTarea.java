@@ -14,93 +14,92 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
-import Tablas.Modulo;
-import Tablas.Tarea;
+import tablas.Tarea;
 
-public class ActivityNuevaTarea extends AppCompatActivity {
-    EditText idT,nomMod,nomTarea;
+public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClickListener {
+    EditText idT,nomMod,nomTarea, fechaSeleccionada;
     DatabaseReference dbRef;
     Tarea tarea;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_tarea);
-        LinearLayout linearPadre=(LinearLayout) findViewById(R.id.pantallaNuevaTarea);
 
-        MaterialButton botonRegistrar = findViewById(R.id.botonRegistrarTarea);
-        MaterialButton eligeFecha= findViewById(R.id.botonEligeFecha);
-        EditText fechaSeleccionada = findViewById(R.id.fechaEntrega);
+        dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
 
+        LinearLayout layout= findViewById(R.id.layoutNuevaTarea);
+
+        MaterialToolbar encabezado = findViewById(R.id.encabezadoNuevaTarea);
         idT=findViewById(R.id.idTarea);
         nomMod=findViewById(R.id.moduloTarea);
         nomTarea=findViewById(R.id.nombreTarea);
-        dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
+        fechaSeleccionada = findViewById(R.id.fechaEntrega);
+        MaterialButton eligeFecha= findViewById(R.id.botonEligeFecha);
+        MaterialButton botonRegistrar = findViewById(R.id.botonRegistrarTarea);
 
-        eligeFecha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar calendario=Calendar.getInstance();
-                int year= calendario.get(Calendar.YEAR);
-                int month=calendario.get(Calendar.MONTH);
-                int day=calendario.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog selectorFecha = new DatePickerDialog(ActivityNuevaTarea.this, new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        month++;
-                        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                        Log.i("fecha",dayOfMonth+" "+(month+1)+" "+ year);
-                        LocalDate fecha = LocalDate.of(year, month, dayOfMonth);
+        encabezado.setNavigationOnClickListener(this);
+        eligeFecha.setOnClickListener(this);
+        botonRegistrar.setOnClickListener(this);
+    }
 
-                        fechaSeleccionada.setText(fecha.format(formato));
-                        Snackbar barra=Snackbar.make(linearPadre,fecha.format(formato),Snackbar.LENGTH_SHORT);
-                        barra.show();
-                    }
-                },year,month,day);
-                selectorFecha.show();
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        LinearLayout layout= findViewById(R.id.layoutNuevaTarea);
+        if (v.getId() == R.id.botonEligeFecha) {
+            Calendar calendario = Calendar.getInstance();
+            int year = calendario.get(Calendar.YEAR);
+            int month = calendario.get(Calendar.MONTH);
+            int day = calendario.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog selectorFecha = new DatePickerDialog(ActivityNuevaTarea.this, new DatePickerDialog.OnDateSetListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                    month++;
+                    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fecha = LocalDate.of(year, month, dayOfMonth);
 
+                    fechaSeleccionada.setText(fecha.format(formato));
+                }
+            },year,month,day);
+            selectorFecha.show();
+        } else if (v.getId() == R.id.botonRegistrarTarea) {
+            String textoID=idT.getText().toString().trim();
+            String nomM=nomMod.getText().toString().trim();
+            String nomT=nomTarea.getText().toString().trim();
+            String fecha=fechaSeleccionada.getText().toString().trim();
 
-        botonRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(v.getContext());
+            if (textoID.isEmpty() || nomM.isEmpty() || nomT.isEmpty() || fecha.isEmpty()) {
+                Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Estás a punto de guardar una nueva tarea, si estás seguro haz clic en 'aceptar'");
                 builder.setIcon(android.R.drawable.ic_dialog_info);
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                      /*CODIGO DB*/
-                        tarea=new Tarea();
-                        int id=Integer.parseInt(idT.getText().toString().trim());
-                        String nomM=nomMod.getText().toString().trim();
-                        String nomT=nomTarea.getText().toString().trim();
-                        String fecha=fechaSeleccionada.getText().toString().trim();
-                        /*SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-                        Date f= null;
-                        */
-                       /* try {
-                            f = sdf.parse(fecha);
-                        } catch (ParseException e) {
-                            throw new RuntimeException(e);
-                        }*/
+                        /*CODIGO DB*/
+                        tarea = new Tarea();
+                        int id = Integer.parseInt(textoID);
+                            /*SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+                            Date f= null;
+                            */
+                           /* try {
+                                f = sdf.parse(fecha);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }*/
                         tarea.setId(id);
                         tarea.setModulo(nomM);
                         tarea.setTarea(nomT);
@@ -111,29 +110,28 @@ public class ActivityNuevaTarea extends AppCompatActivity {
                         nomMod.setText("");
                         nomTarea.setText("");
 
-                        Intent pantallaPrincipal=new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
-                        startActivity(pantallaPrincipal);
+                        Intent actividadMenuPrincipal = new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
+                        startActivity(actividadMenuPrincipal);
                     }
                 });
                 builder.setNegativeButton("No aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        View padre=(View) v.getParent();
-                        Snackbar barra= Snackbar.make(padre,"Si no aceptas modifica algún campo",Snackbar.LENGTH_SHORT);
-                        barra.show();
+                        Snackbar.make(layout, "Si no aceptas modifica algún campo", Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        View padre=(View) v.getParent();
-                        Snackbar barra= Snackbar.make(padre,"Has cancelado el registro",Snackbar.LENGTH_SHORT);
-                        barra.show();
+                        Snackbar.make(layout, "Has cancelado el registro", Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 AlertDialog cuadroDialogo = builder.create();
                 cuadroDialogo.show();
             }
-        });
+        } else {
+            Intent actividadMenuPrincipal = new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
+            startActivity(actividadMenuPrincipal);
+        }
     }
 }

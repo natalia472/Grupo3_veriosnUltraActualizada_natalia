@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="tint">@color/white</item>
+        <item name="backgroundTint">@color/purple_500</item>
+    </style>
+
+    <style name="BotonBorrar" parent="Widget.MaterialComponents.Button">
+        <item name="iconTint">@color/white</item>
+        <item name="android:backgroundTint">@color/red</item>
+    </style>
 </resources>
