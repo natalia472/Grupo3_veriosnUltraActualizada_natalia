@@ -83,74 +83,80 @@ public class ModuloFragment extends Fragment {
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaModulos=new ArrayList<>();
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    //Modulo m=ds.getValue(Modulo.class);
-                    nom = ds.child("modulo").getValue(String.class);
-                    ciclo = ds.child("ciclo").getValue(String.class);
-                    usu = ds.child("usuario").getValue(String.class);
-                    listaModulos.add(new Modulo(nom, ciclo, usu));
-                }
-                miAdaptador.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-        miAdaptador = new AdaptadorCards(getContext(),listaModulos);
-        contenedorVista.setAdapter(miAdaptador);
-        // Configurar el listener para eliminar la tarjeta al hacer clic en el botón
-        miAdaptador.setOnItemClickListener(new AdaptadorCards.OnItemClickListener() {
-            @Override
-            public void onDeleteButtonClick(int position) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Mensaje Informativo");
-                builder.setMessage("Vas a eliminar un módulo, si estás seguro haz clic en 'ELIMINAR'");
-                builder.setIcon(android.R.drawable.ic_dialog_info);
-                builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //borrar la card con firebase
-                        //String nombreM=nombreModulo.getText().toString().trim();
-                        //dbRef.child(position).removeValue();
+        if(usuario.isEmpty()){
 
-                        // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
-                        String clave=listaModulos.get(position).getModulo(); //borra el modulo que este en la posicion que se ha seleccionado para borrar
-                        dbRef.child(clave).removeValue();
-                        listaModulos.remove(position);
-                        miAdaptador.notifyDataSetChanged();
+        }else{
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        //Modulo m=ds.getValue(Modulo.class);
+                        nom = ds.child("modulo").getValue(String.class);
+                        ciclo = ds.child("ciclo").getValue(String.class);
+                        usu = ds.child("usuario").getValue(String.class);
+                        if(usuario.getString("usuarioInicio").equals(usu)){
+                            listaModulos.add(new Modulo(nom, ciclo, usu));
+                        }
                     }
-                });
-                builder.setNegativeButton("NO ELIMINAR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        View padre=(View) view.getParent();
-                        Snackbar barra= Snackbar.make(padre,"Has seleccionado no eliminar el módulo",Snackbar.LENGTH_SHORT);
-                        barra.show();
-                    }
-                });
-                builder.setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        View padre=(View) view.getParent();
-                        Snackbar barra= Snackbar.make(padre,"Has cancelado el proceso",Snackbar.LENGTH_SHORT);
-                        barra.show();
-                    }
-                });
-                AlertDialog cuadroDialogo = builder.create();
-                cuadroDialogo.show();
-            }
-        });
-        FloatingActionButton botonNuevoModulo=(FloatingActionButton) view.findViewById(R.id.floatingABmodulo);
-        botonNuevoModulo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent pantallaNuevoModulo=new Intent(getContext(), ActivityNuevoModulo.class);
-                pantallaNuevoModulo.putExtras(usuario);
-                startActivity(pantallaNuevoModulo);
-            }
-        });
+                    miAdaptador.notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+            miAdaptador = new AdaptadorCards(getContext(),listaModulos);
+            contenedorVista.setAdapter(miAdaptador);
+            // Configurar el listener para eliminar la tarjeta al hacer clic en el botón
+            miAdaptador.setOnItemClickListener(new AdaptadorCards.OnItemClickListener() {
+                @Override
+                public void onDeleteButtonClick(int position) {
+                    AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Mensaje Informativo");
+                    builder.setMessage("Vas a eliminar un módulo, si estás seguro haz clic en 'ELIMINAR'");
+                    builder.setIcon(android.R.drawable.ic_dialog_info);
+                    builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //borrar la card con firebase
+                            //String nombreM=nombreModulo.getText().toString().trim();
+                            //dbRef.child(position).removeValue();
+
+                            // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
+                            String clave=listaModulos.get(position).getModulo(); //borra el modulo que este en la posicion que se ha seleccionado para borrar
+                            dbRef.child(clave).removeValue();
+                            listaModulos.remove(position);
+                            miAdaptador.notifyDataSetChanged();
+                        }
+                    });
+                    builder.setNegativeButton("NO ELIMINAR", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            View padre=(View) view.getParent();
+                            Snackbar barra= Snackbar.make(padre,"Has seleccionado no eliminar el módulo",Snackbar.LENGTH_SHORT);
+                            barra.show();
+                        }
+                    });
+                    builder.setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            View padre=(View) view.getParent();
+                            Snackbar barra= Snackbar.make(padre,"Has cancelado el proceso",Snackbar.LENGTH_SHORT);
+                            barra.show();
+                        }
+                    });
+                    AlertDialog cuadroDialogo = builder.create();
+                    cuadroDialogo.show();
+                }
+            });
+            FloatingActionButton botonNuevoModulo=(FloatingActionButton) view.findViewById(R.id.floatingABmodulo);
+            botonNuevoModulo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent pantallaNuevoModulo=new Intent(getContext(), ActivityNuevoModulo.class);
+                    pantallaNuevoModulo.putExtras(usuario);
+                    startActivity(pantallaNuevoModulo);
+                }
+            });
+        }
         return view;
     }
 }

@@ -72,7 +72,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
             startActivity(actividadEditarPerfil);
         }else {
             Intent actividadMenuPrincipal = new Intent(Perfil.this, MenuPrincipal.class);
-            //actividadMenuPrincipal.putExtras(usuario);
+            actividadMenuPrincipal.putExtras(usuario);
             startActivity(actividadMenuPrincipal);
         }
     }

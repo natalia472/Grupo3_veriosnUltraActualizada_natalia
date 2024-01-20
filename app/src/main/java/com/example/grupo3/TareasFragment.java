@@ -33,9 +33,8 @@ public class TareasFragment extends Fragment {
     Tarea tar;
     ArrayList<Tarea> listaTareas;
     AdaptadorTareas miAdaptador;
-    String mod,tarea;
+    String mod,tarea,fecha,usu;
     int idTarea;
-    String fecha;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,7 +94,10 @@ public class TareasFragment extends Fragment {
                     idTarea=ds.child("id").getValue(Integer.class);
                     mod=ds.child("modulo").getValue(String.class);
                     tarea=ds.child("tarea").getValue(String.class);
-                    listaTareas.add(new Tarea(idTarea,mod,tarea,fecha));
+                    usu=ds.child("usuario").getValue(String.class);
+                    if(usuario.getString("usuarioInicio").equals(usu)){
+                        listaTareas.add(new Tarea(idTarea,mod,tarea,fecha,usuario.getString("usuarioInicio")));
+                    }
                 }
                 miAdaptador.notifyDataSetChanged();
             }

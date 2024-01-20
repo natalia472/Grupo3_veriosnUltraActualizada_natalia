@@ -18,7 +18,7 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
     Bundle usuario;
     DatabaseReference dbRef;
     Modulo mod;
-    EditText  textoNombre,textoCiclo,textoUsuario;
+    EditText  textoNombre,textoCiclo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,6 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
         MaterialToolbar encabezado = findViewById(R.id.encabezadoNuevoModulo);
         textoNombre = findViewById(R.id.nombreModulo);
         textoCiclo = findViewById(R.id.ciclo);
-        textoUsuario = findViewById(R.id.usuario);
         MaterialButton botonRegistrar = findViewById(R.id.botonRegistrarModulo);
         dbRef= FirebaseDatabase.getInstance().getReference().child("mod"); //SIN ESTA LINEA NO SE INSERTA NADA
 
@@ -44,9 +43,8 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
 
             String nombre = textoNombre.getText().toString().trim();
             String ciclo = textoCiclo.getText().toString().trim();
-            String usuarioT = textoUsuario.getText().toString().trim();
 
-            if (nombre.isEmpty() || ciclo.isEmpty() || usuarioT.isEmpty()) {
+            if (nombre.isEmpty() || ciclo.isEmpty()) {
                 Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -59,7 +57,7 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
                         mod = new Modulo();
                         mod.setModulo(nombre);
                         mod.setCiclo(ciclo);
-                        mod.setUsuario(usuarioT);
+                        mod.setUsuario(usuario.getString("usuarioInicio"));
                         dbRef.child(nombre).setValue(mod);
                         Intent actividadMenuPrincipal = new Intent(ActivityNuevoModulo.this, MenuPrincipal.class);
                         actividadMenuPrincipal.putExtras(usuario);

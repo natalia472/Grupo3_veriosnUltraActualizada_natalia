@@ -94,12 +94,9 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
                         tarea.setId(id);
                         tarea.setModulo(nomM);
                         tarea.setTarea(nomT);
-                        tarea.setFechaEntrega(fecha);
-                        dbRef.child(String.valueOf(id)).setValue(tarea);
+                        tarea.setFechaEntrega(fecha);tarea.setUsuario(usuario.getString("usuarioInicio"));
 
-                        idT.setText("");
-                        nomMod.setText("");
-                        nomTarea.setText("");
+                        dbRef.child(String.valueOf(id)).setValue(tarea);
 
                         Intent actividadMenuPrincipal = new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
                         actividadMenuPrincipal.putExtras(usuario);

@@ -6,21 +6,17 @@ public class Tarea {
     private String modulo;
     private String tarea;
     private String fechaEntrega;
+    private String usuario;
 
     public Tarea() {
     }
 
-    public Tarea(String modulo, String tarea, String fechaEntrega) {
-        this.modulo = modulo;
-        this.tarea = tarea;
-        this.fechaEntrega = fechaEntrega;
-    }
-
-    public Tarea(int id, String modulo, String tarea, String fechaEntrega) {
+    public Tarea(int id, String modulo, String tarea, String fechaEntrega, String usuario) {
         this.id = id;
         this.modulo = modulo;
         this.tarea = tarea;
         this.fechaEntrega = fechaEntrega;
+        this.usuario = usuario;
     }
 
     public Tarea(String programacion, String tarea) {
@@ -56,5 +52,12 @@ public class Tarea {
 
     public void setFechaEntrega(String fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }
