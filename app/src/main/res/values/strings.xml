@@ -21,7 +21,7 @@
     <string name="textoCorreo">Correo</string>
 
     <!--Textos que Aparecen Únicamente en Menús-->
-    <string name="textoAsignaturas">Asignaturas</string>
+    <string name="textoModulos">Módulos</string>
     <string name="textoTareas">Tareas</string>
     <string name="textoCerrarSesion">Cerrar Sesión</string>
 

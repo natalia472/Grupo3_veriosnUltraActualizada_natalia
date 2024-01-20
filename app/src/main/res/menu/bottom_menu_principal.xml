@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/itemAsignaturas"
-        android:title="@string/textoAsignaturas"
+        android:id="@+id/itemModulos"
+        android:title="@string/textoModulos"
         android:icon="@drawable/school"
         app:showAsAction="always"/>
 

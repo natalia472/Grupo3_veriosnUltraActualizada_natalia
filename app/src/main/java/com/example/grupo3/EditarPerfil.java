@@ -78,12 +78,8 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String nombreOriginal=getIntent().getStringExtra("nombreB");
                         if(snapshot.exists()){
-                            if(!contrasena.isEmpty()){
-                                dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
-                            }
-                            if(!correo.isEmpty()){
-                                dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
-                            }
+                            dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
+                            dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
                         }
                     }
                     @Override
