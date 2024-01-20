@@ -28,6 +28,7 @@ import tablas.Tarea;
  * create an instance of this fragment.
  */
 public class TareasFragment extends Fragment {
+    Bundle usuario;
     DatabaseReference dbRef;
     Tarea tar;
     ArrayList<Tarea> listaTareas;
@@ -70,8 +71,7 @@ public class TareasFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            usuario=getArguments(); //lo mismo que hacer getintent.getextras pero en fragmentos :)
         }
     }
 
@@ -86,12 +86,6 @@ public class TareasFragment extends Fragment {
 
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaTareas=new ArrayList<>();
-        /*fecha=LocalDate.of(2022,12,12);
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-        String fechita=sdf.format(fecha);*/
-
-        //listaTareas.add(new Tarea("Juana","paula","12/12/2022"));
-
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -120,7 +114,6 @@ public class TareasFragment extends Fragment {
                 builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
                         String clave= String.valueOf(listaTareas.get(position).getId()); //borra el modulo que este en la posicion que se ha seleccionado para borrar
                         dbRef.child(clave).removeValue();
 
@@ -146,7 +139,6 @@ public class TareasFragment extends Fragment {
                 });
                 AlertDialog cuadroDialogo = builder.create();
                 cuadroDialogo.show();
-
             }
         });
 
@@ -155,11 +147,10 @@ public class TareasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent pantallaNuevaTarea = new Intent(getContext(), ActivityNuevaTarea.class);
+                pantallaNuevaTarea.putExtras(usuario);
                 startActivity(pantallaNuevaTarea);
             }
         });
-
         return view;
     }
-
 }

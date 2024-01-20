@@ -28,6 +28,7 @@ import java.util.Calendar;
 import tablas.Tarea;
 
 public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClickListener {
+    Bundle usuario;
     EditText idT,nomMod,nomTarea, fechaSeleccionada;
     DatabaseReference dbRef;
     Tarea tarea;
@@ -35,10 +36,9 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_tarea);
+        usuario=getIntent().getExtras();
 
         dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
-
-        LinearLayout layout= findViewById(R.id.layoutNuevaTarea);
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoNuevaTarea);
         idT=findViewById(R.id.idTarea);
@@ -89,17 +89,8 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        /*CODIGO DB*/
                         tarea = new Tarea();
                         int id = Integer.parseInt(textoID);
-                            /*SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-                            Date f= null;
-                            */
-                           /* try {
-                                f = sdf.parse(fecha);
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
-                            }*/
                         tarea.setId(id);
                         tarea.setModulo(nomM);
                         tarea.setTarea(nomT);
@@ -111,6 +102,7 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
                         nomTarea.setText("");
 
                         Intent actividadMenuPrincipal = new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
+                        actividadMenuPrincipal.putExtras(usuario);
                         startActivity(actividadMenuPrincipal);
                     }
                 });
@@ -131,6 +123,7 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
             }
         } else {
             Intent actividadMenuPrincipal = new Intent(ActivityNuevaTarea.this, MenuPrincipal.class);
+            actividadMenuPrincipal.putExtras(usuario);
             startActivity(actividadMenuPrincipal);
         }
     }

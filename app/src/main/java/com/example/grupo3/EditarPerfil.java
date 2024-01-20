@@ -21,38 +21,24 @@ import com.google.firebase.database.ValueEventListener;
 import tablas.Usuario;
 
 public class EditarPerfil extends AppCompatActivity implements View.OnClickListener {
-    private Bundle b;
-
-    private Usuario datosUsuario;
+    private Bundle usuario;
     private EditText textoContrasena;
     private EditText textoCorreo;
     DatabaseReference dbRef;
-    Usuario usu;
-    String nomUsuario,nom,editarUsuario;
+    String nomUsuario,editarUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
-
-
-
-        /*usuario = getIntent().getExtras();
-        datosUsuario = usuario.getParcelable("usuario");*/
-
+        usuario = getIntent().getExtras();
         MaterialToolbar encabezado = findViewById(R.id.encabezadoEditarPerfil);
-        //textoNombre = findViewById(R.id.editTextNombreEditarPerfil);
         textoContrasena=findViewById(R.id.editTextContrasena);
         textoCorreo = findViewById(R.id.editTextCorreoEditarPerfil);
         FloatingActionButton botonCambios = findViewById(R.id.botonCambiosEditarPerfil);
 
-        /*textoNombre.setText(datosUsuario.getNombre());
-        textoCorreo.setText(datosUsuario.getCorreo());*/
-
         dbRef= FirebaseDatabase.getInstance().getReference();
-        nomUsuario=getIntent().getStringExtra("nomUsu");
         editarUsuario=getIntent().getStringExtra("usuarioInicio");
-
         encabezado.setNavigationOnClickListener(this);
         botonCambios.setOnClickListener(this);
     }
@@ -67,31 +53,26 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
                 RelativeLayout layout = findViewById(R.id.layoutEditarPerfil);
                 Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
             } else {
-                /*datosUsuario.setNombre(nombre);
-                datosUsuario.setCorreo(correo);
-                usuario.putParcelable("usuario", datosUsuario);
-                actividadPerfil.putExtras(usuario);
-                startActivity(actividadPerfil);*/
-                //Query consulta= dbRef.equalTo(editarUsuario);
                 dbRef.child("usu").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String nombreOriginal=getIntent().getStringExtra("nombreB");
+                        String nombreOriginal=usuario.getString("usuarioInicio");
                         if(snapshot.exists()){
-                            dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
                             dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
+                            dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
-                //actividadPerfil.putExtra("usuario",nom);
+                actividadPerfil.putExtras(usuario);
                 startActivity(actividadPerfil);
             }
         } else {
-            //actividadPerfil.putExtras(usuario);
-            //actividadPerfil.putExtra("usuario",nom);
+            actividadPerfil.putExtras(usuario);
             startActivity(actividadPerfil);
+            /*la diferencia entre putextraS y putextrA es que en la primera
+            se envia el objeto entero y en la segunda se envia una clave y un valor*/
         }
     }
 }

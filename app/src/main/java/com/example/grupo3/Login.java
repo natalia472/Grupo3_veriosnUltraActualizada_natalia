@@ -72,11 +72,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             MenuPrincipal junto con el Bundle con el Usuario correspondiente.*/
             } else{
                 Intent actividadMenuPrincipal = new Intent(Login.this, MenuPrincipal.class);
-                actividadMenuPrincipal.putExtra("usuarioInicio",textoNombre.getText().toString());
+                actividadMenuPrincipal.putExtra("usuarioInicio",textoNombre.getText().toString().trim());
                 startActivity(actividadMenuPrincipal);
-
-            /*Si el correo o la contraseña no son iguales a los del usuario de prueba aparecerá un mensaje avisando
-            al usuario de ello.*/
             }
 
         /*Si el botón pulsado es el de registrarse se le llevará a la actividad SignIn junto con el Bundle con

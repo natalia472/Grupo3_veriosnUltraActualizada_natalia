@@ -1,7 +1,5 @@
 package com.example.grupo3;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,26 +7,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import tablas.Modulo;
 
 public class ActivityNuevoModulo extends AppCompatActivity implements View.OnClickListener {
+    Bundle usuario;
     DatabaseReference dbRef;
     Modulo mod;
-    EditText  textoNombre;
-    EditText textoCiclo;
-    EditText textoUsuario;
+    EditText  textoNombre,textoCiclo,textoUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_modulo);
+        usuario=getIntent().getExtras();
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoNuevoModulo);
         textoNombre = findViewById(R.id.nombreModulo);
@@ -48,9 +44,9 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
 
             String nombre = textoNombre.getText().toString().trim();
             String ciclo = textoCiclo.getText().toString().trim();
-            String usuario = textoUsuario.getText().toString().trim();
+            String usuarioT = textoUsuario.getText().toString().trim();
 
-            if (nombre.isEmpty() || ciclo.isEmpty() || usuario.isEmpty()) {
+            if (nombre.isEmpty() || ciclo.isEmpty() || usuarioT.isEmpty()) {
                 Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -61,22 +57,15 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mod = new Modulo();
-
                         mod.setModulo(nombre);
                         mod.setCiclo(ciclo);
-                        mod.setUsuario(usuario);
+                        mod.setUsuario(usuarioT);
                         dbRef.child(nombre).setValue(mod);
-
-                        textoNombre.setText("");
-                        textoCiclo.setText("");
-                        textoUsuario.setText("");
                         Intent actividadMenuPrincipal = new Intent(ActivityNuevoModulo.this, MenuPrincipal.class);
-                        //mandar el nombre del modulo a la siguiente pantalla para poder hacer la consulta
-                        actividadMenuPrincipal.putExtra("nombreM", textoNombre.getText().toString());
+                        actividadMenuPrincipal.putExtras(usuario);
                         startActivity(actividadMenuPrincipal);
                     }
                 });
-
                 builder.setNegativeButton("No aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -94,7 +83,7 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
             }
         } else {
             Intent actividadMenuPrincipal=new Intent(ActivityNuevoModulo.this, MenuPrincipal.class);
-            actividadMenuPrincipal.putExtra("nombreM","NombreModulo");
+            actividadMenuPrincipal.putExtras(usuario);
             startActivity(actividadMenuPrincipal);
         }
     }

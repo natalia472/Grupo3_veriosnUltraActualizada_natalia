@@ -4,11 +4,9 @@
     android:layout_height="match_parent"
     android:id="@+id/vistaCard"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.cardview.widget.CardView
             android:id="@+id/contenedorCard"
             android:layout_width="320dp"
@@ -88,11 +86,7 @@
                         android:textColor="@color/black"/>
 
                 </LinearLayout>
-
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

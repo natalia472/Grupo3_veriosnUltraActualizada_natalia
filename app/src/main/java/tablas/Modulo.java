@@ -1,8 +1,5 @@
 package tablas;
-
 public class Modulo {
-
-
     private String modulo;
     private String ciclo;
     private String usuario;

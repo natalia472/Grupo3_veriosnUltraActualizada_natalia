@@ -43,7 +43,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
         usu=new Usuario();
         nomUsuario=getIntent().getStringExtra("usuarioInicio");
-        Query consulta=dbRef.equalTo(nomUsuario);
         dbRef.orderByChild("nombre").equalTo(nomUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -51,20 +50,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
                     Usuario u=ds.getValue(Usuario.class);
                     textoNombre.setText(u.getNombre());
                     textoCorreo.setText(u.getCorreo());
-                    /**
-                     * muestra el ultimo usuario añadido, si se inserta uno nuevo, seguira
-                     * mostrando el añadido anterior al nuevo
-                     * ej: ya hay usuario x, añado usuario y, pero muestra el x
-                     * si borro el usuario x, muestra el usuario y
-                     * Si se edita el usuario, crea uno nuevo con los datos editados,
-                     * ej, edito el usuario y para que de nombre tenga t y correo t2,
-                     * al volver, solo mostrara los datos de y, pero en firebase crea un
-                     * nuevo usuario con los datos de t
-                     * para cambiar el nombre y correo de un usuario haria falta otra clave
-                     * 'primaria' ya que no se podria cambiar el nombre y correo del usuario cuyo
-                     * nombre sea 'x', deberia tener otra clave para identificarlo y comprobar si asi funciona
-                     * Cambiar la contraseña no funciona
-                     */
                 }
             }
             @Override
@@ -83,8 +68,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.botonEditarPerfil) {
             Intent actividadEditarPerfil = new Intent(Perfil.this, EditarPerfil.class);
-            //actividadEditarPerfil.putExtras(usuario);
-            actividadEditarPerfil.putExtra("nombreB",nomUsuario);
+            actividadEditarPerfil.putExtras(usuario);
             startActivity(actividadEditarPerfil);
         }else {
             Intent actividadMenuPrincipal = new Intent(Perfil.this, MenuPrincipal.class);

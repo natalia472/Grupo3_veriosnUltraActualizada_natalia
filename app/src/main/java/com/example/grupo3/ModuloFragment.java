@@ -25,6 +25,7 @@ import tablas.Modulo;
  * create an instance of this fragment.
  */
 public class ModuloFragment extends Fragment {
+    Bundle usuario=new Bundle();
     DatabaseReference dbRef;
     Modulo mod;
     ArrayList<Modulo> listaModulos;
@@ -66,8 +67,7 @@ public class ModuloFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            usuario=getArguments();
         }
     }
 
@@ -147,6 +147,7 @@ public class ModuloFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent pantallaNuevoModulo=new Intent(getContext(), ActivityNuevoModulo.class);
+                pantallaNuevoModulo.putExtras(usuario);
                 startActivity(pantallaNuevoModulo);
             }
         });
