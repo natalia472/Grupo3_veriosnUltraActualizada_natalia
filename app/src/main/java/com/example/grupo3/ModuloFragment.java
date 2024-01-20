@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
-import Tablas.Modulo;
+import tablas.Modulo;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ModuloFragment#newInstance} factory method to
@@ -75,7 +75,7 @@ public class ModuloFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_asignaturas, container, false);
+        View view = inflater.inflate(R.layout.fragment_modulo, container, false);
         contenedorVista = view.findViewById(R.id.listaCards);
         dbRef= FirebaseDatabase.getInstance().getReference().child("mod");
         mod=new Modulo();

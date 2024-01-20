@@ -18,4 +18,45 @@
         app:titleCentered="true"
         app:navigationIcon="@drawable/arrow_back"/>
 
+    <TextView
+        android:id="@+id/textoAplicacionRealizadaPor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/textoAplicaciónRealizadaPor"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/textoDanielALonso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/textoDanielAlonso"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/textoNataliaMoreno"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/textoNataliaMoreno"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/textoJuanaPaulaSierra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/textoJuanaPaulaSierra"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:textColor="@color/black"/>
+
 </LinearLayout>

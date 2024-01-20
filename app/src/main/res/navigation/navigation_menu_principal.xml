@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/fragmentAsignaturas"
         android:name="com.example.grupo3.ModuloFragment"
-        tools:layout="@layout/fragment_asignaturas"/>
+        tools:layout="@layout/fragment_modulo"/>
 
     <fragment
         android:id="@+id/fragmentTareas"

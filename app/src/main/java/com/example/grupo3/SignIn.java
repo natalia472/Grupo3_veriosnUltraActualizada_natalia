@@ -6,14 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import Tablas.Usuario;
+import tablas.Usuario;
 
 public class SignIn extends AppCompatActivity implements View.OnClickListener {
     //Atributos.
@@ -58,6 +59,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
+        LinearLayout layout = findViewById(R.id.layoutSignIn);
         //Si el botón pulsado en el de registrarse realizará las siguientes acciones.
         if (v.getId()==R.id.botonRegistrarseSignIn) {
             //Se obtienen los datos escritos por el usuario para realizar las siguientes acciones.
@@ -69,11 +71,11 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
             /*Si alguno de los campos está vacío aparecerá un mensaje avisando al usuario de que todos los campos
             deben ser rellenados.*/
             if (nombre.isEmpty() || correo.isEmpty() || contrasena.isEmpty() || confirmarContrasena.isEmpty()) {
-                Toast.makeText(SignIn.this, R.string.errorTextosVacíos, Toast.LENGTH_SHORT).show();
+                Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
 
             //Sino si el correo es igual al del usuario de prueba se avisará al usuario de que el mismo ya está en uso.
             } else if (usuarioPrueba.getNombre().equals(nombre)) {
-                Toast.makeText(SignIn.this, R.string.errorNombreYaExistente, Toast.LENGTH_SHORT).show();
+                Snackbar.make(layout, R.string.errorNombreYaExistente, Snackbar.LENGTH_SHORT).show();
 
             /*Sino si la contraseña y su confirmación son iguales se le llevará a la actividad MenuPrincipal junto con
             el Bundle con el Usuario el cuál se crea con los datos insertados por el usuario.*/
@@ -102,7 +104,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener {
             /*Si la contraseña y la confirmación de la misma no son iguales se le avisará mediante un mensaje al
             usuario.*/
             } else {
-                Toast.makeText(this, R.string.errorContrasenaYConfirmacionErroneas, Toast.LENGTH_SHORT).show();
+                Snackbar.make(layout, R.string.errorContrasenaYConfirmacionErroneas, Snackbar.LENGTH_SHORT).show();
             }
 
         //Si el botón pulsado es el de volver al inicio de sesión se le llevará a la actividad Login.

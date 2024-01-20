@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import Tablas.Usuario;
+import tablas.Usuario;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     //Atributos.
@@ -64,7 +65,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             /*Si alguno de los campos está vacío aparecerá un mensaje avisando al usuario de que todos los campos
             deben ser rellenados.*/
             if (correo.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(Login.this, R.string.errorTextosVacíos, Toast.LENGTH_SHORT).show();
+                LinearLayout layout = findViewById(R.id.layoutLogin);
+                Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
 
             /*Sino si el correo y contraseña corresponden a los del usuario de prueba se le llevará a la actividad
             MenuPrincipal junto con el Bundle con el Usuario correspondiente.*/

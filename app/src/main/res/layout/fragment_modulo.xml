@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/layoutAsignaturas"
+    android:id="@+id/layoutModulo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,16 +18,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingABmodulo"
+        style="@style/FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        app:fabSize="auto"
-        android:src="@android:drawable/ic_input_add"
-        android:backgroundTint="#7F68E6"/>
-
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/add"
+        app:maxImageSize="30dp"/>
 
 </RelativeLayout>

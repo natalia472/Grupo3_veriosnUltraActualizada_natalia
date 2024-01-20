@@ -12,7 +12,7 @@
         android:id="@+id/encabezadoPerfil"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         app:title="@string/textoPerfil"
         app:titleCentered="true"
         app:navigationIcon="@drawable/arrow_back"/>
@@ -46,11 +46,15 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/botonEditarPerfil"
+        style="@style/FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:src="@drawable/edit"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/edit" />
 
 </RelativeLayout>

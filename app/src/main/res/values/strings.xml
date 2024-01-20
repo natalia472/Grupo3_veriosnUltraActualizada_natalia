@@ -1,30 +1,46 @@
 <resources>
     <string name="app_name">Grupo3</string>
 
+    <!-- Textos de Encabezados -->
     <string name="textoBienvenida">BIENVENIDO</string>
-
-    <string name="textoIniciarSesion">Iniciar Sesión</string>
     <string name="textoRegistro">Registro</string>
-    <string name="textoRegistrarse">Registrarse</string>
-
+    <string name="textoNuevoModulo">Nuevo Módulo</string>
+    <string name="textoNuevaTarea">Nueva Tarea</string>
     <string name="textoPerfil">Perfil</string>
     <string name="textoEditarPerfil">Editar Perfil</string>
-    <string name="textoCambiarContrasena">Cambiar Contraseña</string>
     <string name="textoAcercaDe">Acerca De...</string>
-    <string name="textoCerrarSesion">Cerrar Sesión</string>
 
-    <string name="textoAsignaturas">Asignaturas</string>
-    <string name="textoTareas">Tareas</string>
-    <string name="textoMensajes">Mensajes</string>
+    <!--Textos de Botones-->
+    <string name="textoRegistrarse">Registrarse</string>
+    <string name="textoREGISTRAR">REGISTRAR</string>
+    <string name="textoEligeFecha">Elige Fecha</string>
 
+    <!--Textos Utilizados en Diferentes Elementos-->
+    <string name="textoIniciarSesion">Iniciar Sesión</string>
     <string name="textoNombre">Nombre</string>
     <string name="textoCorreo">Correo</string>
-    <string name="textoContrasena">Contraseña</string>
-    <string name="textoConfirmarContrasena">Confirmar Contraseña</string>
-    <string name="textoNuevaContrasena">Nueva Contraseña</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Textos que Aparecen Únicamente en Menús-->
+    <string name="textoAsignaturas">Asignaturas</string>
+    <string name="textoTareas">Tareas</string>
+    <string name="textoCerrarSesion">Cerrar Sesión</string>
+
+    <!-- Hints de Textos-->
+    <string name="textoContrasena">Contraseña</string>
+    <string name="textoCambiarContrasena">Cambiar Contraseña</string>
+    <string name="textoConfirmarContrasena">Confirmar Contraseña</string>
+    <string name="textoNombreModulo">Nombre Módulo</string>
+    <string name="textoCiclo">Ciclo</string>
+    <string name="textoUsuario">Usuario</string>
+    <string name="textoID">ID</string>
+    <string name="textoNombreTarea">Nombre Tarea</string>
+    <string name="textoFechaEntrega">Fecha Entrega</string>
+
+    <!-- Textos del Acerca De... -->
+    <string name="textoAplicaciónRealizadaPor">Aplicación\nRealizada\n\nPor:</string>
+    <string name="textoDanielAlonso">Daniel Alonso Domínguez</string>
+    <string name="textoNataliaMoreno">Natalia Moreno Wylezynska</string>
+    <string name="textoJuanaPaulaSierra">Juana Paula Sierra Melquiades</string>
 
     <!-- Textos de errores -->
     <string name="errorInsertarDatosIniciarSesion">El nombre o la contraseña son incorrectos</string>

@@ -1,11 +1,4 @@
-package Tablas;
-
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import java.time.LocalDate;
-import java.util.Date;
+package tablas;
 
 
 public class Tarea {
