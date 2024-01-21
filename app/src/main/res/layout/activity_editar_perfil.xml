@@ -55,12 +55,13 @@
         android:layout_marginRight="10dp"
         android:hint="@string/textoCambiarContrasena"
         app:startIconDrawable="@drawable/lock"
-        app:endIconMode="clear_text">
+        app:endIconMode="password_toggle">
 
         <EditText
             android:id="@+id/editTextContrasena"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

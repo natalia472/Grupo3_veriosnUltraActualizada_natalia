@@ -22,66 +22,37 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import tablas.Tarea;
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TareasFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TareasFragment extends Fragment {
-    Bundle usuario;
-    DatabaseReference dbRef;
-    Tarea tar;
-    ArrayList<Tarea> listaTareas;
-    AdaptadorTareas miAdaptador;
-    String mod,tarea,fecha,usu;
-    int idTarea;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class TareasFragment extends Fragment {
+    private Bundle usuario;
+    private DatabaseReference dbRef;
+    private ArrayList<Tarea> listaTareas;
+    private AdaptadorTareas miAdaptador;
+    private String mod,tarea,fecha,usu;
+    int idTarea;
     private ListView contenedorVista;
+
     public TareasFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TareasFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TareasFragment newInstance(String param1, String param2) {
-        TareasFragment fragment = new TareasFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            usuario=getArguments(); //lo mismo que hacer getintent.getextras pero en fragmentos :)
+            usuario = getArguments(); //El getArguments, es lo mismo que hacer getIntent().getExtras pero en fragmentos :)
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tareas, container, false);
+
         contenedorVista = view.findViewById(R.id.listaTareas);
+        FloatingActionButton botonNuevaTarea = (FloatingActionButton) view.findViewById(R.id.floatingABtareas);
+
         dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
-        tar=new Tarea();
 
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaTareas=new ArrayList<>();
@@ -104,6 +75,7 @@ public class TareasFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+
         miAdaptador = new AdaptadorTareas(getContext(), listaTareas);
         contenedorVista.setAdapter(miAdaptador);
         miAdaptador.setOnItemClickListener(new AdaptadorTareas.OnItemClickListener() {
@@ -112,7 +84,7 @@ public class TareasFragment extends Fragment {
                 AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Vas a eliminar una tarea, si estás seguro haz clic en 'ELIMINAR'");
-                builder.setIcon(android.R.drawable.ic_dialog_info);
+                builder.setIcon(R.drawable.info);
                 builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -144,7 +116,6 @@ public class TareasFragment extends Fragment {
             }
         });
 
-        FloatingActionButton botonNuevaTarea = (FloatingActionButton) view.findViewById(R.id.floatingABtareas);
         botonNuevaTarea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +124,7 @@ public class TareasFragment extends Fragment {
                 startActivity(pantallaNuevaTarea);
             }
         });
+
         return view;
     }
 }

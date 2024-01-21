@@ -39,25 +39,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TImoduloTarea"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:hint="@string/textoNombreModulo"
-        app:startIconDrawable="@drawable/info"
-        app:endIconMode="clear_text">
-
-        <EditText
-            android:id="@+id/moduloTarea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TInombreTarea"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
@@ -66,11 +47,30 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"
         android:hint="@string/textoNombreTarea"
-        app:startIconDrawable="@drawable/modulo"
+        app:startIconDrawable="@drawable/info"
         app:endIconMode="clear_text">
 
         <EditText
             android:id="@+id/nombreTarea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TImoduloTarea"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/textoNombreModulo"
+        app:startIconDrawable="@drawable/modulo"
+        app:endIconMode="clear_text">
+
+        <EditText
+            android:id="@+id/moduloTarea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

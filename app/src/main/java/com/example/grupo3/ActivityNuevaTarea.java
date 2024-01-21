@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,14 +27,16 @@ import java.util.Calendar;
 import tablas.Tarea;
 
 public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClickListener {
-    Bundle usuario;
-    EditText idT,nomMod,nomTarea, fechaSeleccionada;
-    DatabaseReference dbRef;
-    Tarea tarea;
+    private Bundle usuario;
+    private EditText idT,nomMod,nomTarea, fechaSeleccionada;
+    private DatabaseReference dbRef;
+    private Tarea tarea;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nueva_tarea);
+
         usuario=getIntent().getExtras();
 
         dbRef= FirebaseDatabase.getInstance().getReference().child("tarea");
@@ -61,6 +62,7 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
             int year = calendario.get(Calendar.YEAR);
             int month = calendario.get(Calendar.MONTH);
             int day = calendario.get(Calendar.DAY_OF_MONTH);
+
             DatePickerDialog selectorFecha = new DatePickerDialog(ActivityNuevaTarea.this, new DatePickerDialog.OnDateSetListener() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
@@ -85,7 +87,7 @@ public class ActivityNuevaTarea extends AppCompatActivity implements View.OnClic
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Estás a punto de guardar una nueva tarea, si estás seguro haz clic en 'aceptar'");
-                builder.setIcon(android.R.drawable.ic_dialog_info);
+                builder.setIcon(R.drawable.info);
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -47,7 +47,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
             android:hint="@string/textoCiclo"
-            app:startIconDrawable="@drawable/info"
+            app:startIconDrawable="@drawable/book"
             app:endIconMode="clear_text">
 
             <EditText

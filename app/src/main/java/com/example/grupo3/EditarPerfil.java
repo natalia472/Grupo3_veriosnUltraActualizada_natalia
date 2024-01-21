@@ -24,21 +24,34 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
     private Bundle usuario;
     private EditText textoContrasena;
     private EditText textoCorreo;
-    DatabaseReference dbRef;
-    String nomUsuario,editarUsuario;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil);
+
         usuario = getIntent().getExtras();
+
         MaterialToolbar encabezado = findViewById(R.id.encabezadoEditarPerfil);
-        textoContrasena=findViewById(R.id.editTextContrasena);
+        textoContrasena = findViewById(R.id.editTextContrasena);
         textoCorreo = findViewById(R.id.editTextCorreoEditarPerfil);
         FloatingActionButton botonCambios = findViewById(R.id.botonCambiosEditarPerfil);
 
-        dbRef= FirebaseDatabase.getInstance().getReference();
-        editarUsuario=getIntent().getStringExtra("usuarioInicio");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("usu");
+
+        dbRef.orderByChild("nombre").equalTo(usuario.getString("usuarioInicio")).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds:snapshot.getChildren()){
+                    Usuario u=ds.getValue(Usuario.class);
+                    textoCorreo.setText(u.getCorreo());
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
         encabezado.setNavigationOnClickListener(this);
         botonCambios.setOnClickListener(this);
     }
@@ -49,30 +62,32 @@ public class EditarPerfil extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.botonCambiosEditarPerfil) {
             String contrasena = textoContrasena.getText().toString().trim();
             String correo = textoCorreo.getText().toString().trim();
+
             if (contrasena.isEmpty() || correo.isEmpty()) {
                 RelativeLayout layout = findViewById(R.id.layoutEditarPerfil);
                 Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
             } else {
-                dbRef.child("usu").addListenerForSingleValueEvent(new ValueEventListener() {
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String nombreOriginal=usuario.getString("usuarioInicio");
                         if(snapshot.exists()){
-                            dbRef.child("usu").child(nombreOriginal).child("correo").setValue(correo);
-                            dbRef.child("usu").child(nombreOriginal).child("contrasena").setValue(contrasena);
+                            dbRef.child(nombreOriginal).child("correo").setValue(correo);
+                            dbRef.child(nombreOriginal).child("contrasena").setValue(contrasena);
                         }
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
+
                 actividadPerfil.putExtras(usuario);
                 startActivity(actividadPerfil);
             }
         } else {
             actividadPerfil.putExtras(usuario);
             startActivity(actividadPerfil);
-            /*la diferencia entre putextraS y putextrA es que en la primera
-            se envia el objeto entero y en la segunda se envia una clave y un valor*/
+            /*La diferencia entre putExtras y putExtra es que en la primera
+            se envía un Bundle y en la segunda se envía una clave y un valor*/
         }
     }
 }

@@ -27,7 +27,6 @@ public class AdaptadorCards extends ArrayAdapter<Modulo> {
         this.onItemClickListener = listener;
     }
 
-
     public AdaptadorCards(Context contexto, ArrayList<Modulo> lista) {
         super(contexto, R.layout.cards, lista);
         this.lista=lista;
@@ -39,23 +38,23 @@ public class AdaptadorCards extends ArrayAdapter<Modulo> {
         selectedItems.put(position, isSelected);
         notifyDataSetChanged();
     }
+
     public interface OnItemClickListener {
         void onDeleteButtonClick(int position);
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         LayoutInflater mostrado= LayoutInflater.from(getContext());
         View elemento= mostrado.inflate(R.layout.cards, parent, false);
 
-        TextView nombreModulo= (TextView) elemento.findViewById(R.id.nombreModulo);
-        TextView cicloModulo= (TextView) elemento.findViewById(R.id.ciclo);
+        TextView nombreModulo= elemento.findViewById(R.id.nombreModulo);
+        TextView cicloModulo= elemento.findViewById(R.id.ciclo);
+        MaterialButton botonEliminarModulo = elemento.findViewById(R.id.botonEliminarModulo);
 
         nombreModulo.setText(lista.get(position).getModulo());
         cicloModulo.setText(lista.get(position).getCiclo());
-
-
 
         // Verifica si el elemento está seleccionado y cambia su apariencia
         if (selectedItems.get(position)) {
@@ -64,7 +63,6 @@ public class AdaptadorCards extends ArrayAdapter<Modulo> {
             elemento.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
         }
 
-        MaterialButton botonEliminarModulo = elemento.findViewById(R.id.botonEliminarModulo);
         botonEliminarModulo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

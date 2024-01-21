@@ -1,4 +1,5 @@
 package com.example.grupo3;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,15 +16,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import tablas.Modulo;
 
 public class ActivityNuevoModulo extends AppCompatActivity implements View.OnClickListener {
-    Bundle usuario;
-    DatabaseReference dbRef;
-    Modulo mod;
-    EditText  textoNombre,textoCiclo;
+    private Bundle usuario;
+    private DatabaseReference dbRef;
+    private Modulo mod;
+    private EditText  textoNombre,textoCiclo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_modulo);
+
         usuario=getIntent().getExtras();
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoNuevoModulo);
@@ -50,7 +52,7 @@ public class ActivityNuevoModulo extends AppCompatActivity implements View.OnCli
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 builder.setTitle("Mensaje Informativo");
                 builder.setMessage("Estás a punto de guardar un nuevo módulo, si estás seguro haz clic en 'aceptar'");
-                builder.setIcon(android.R.drawable.ic_dialog_info);
+                builder.setIcon(R.drawable.info);
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

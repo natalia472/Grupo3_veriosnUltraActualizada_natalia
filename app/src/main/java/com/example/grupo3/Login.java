@@ -17,19 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import tablas.Modulo;
-import tablas.Usuario;
-
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    //Atributos.
-    private Usuario usuarioPrueba;
-    private Bundle usuario;
     private EditText textoNombre;
     private EditText textoContrasena;
-    DatabaseReference dbRef;
-    Usuario usu;
-    private String nombreUsuario;
-    LinearLayout layout;
+    private DatabaseReference dbRef;
+    private String nombre, contrasena;
 
 
     @Override
@@ -37,66 +29,66 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Crea un usuario de prueba.
-        usuarioPrueba = new Usuario("Jose", "jose@gmail.com", "123456");
-
-        //Se crea un Bundle con el usuario anteriormente creado.
-        usuario = new Bundle();
-        usuario.putParcelable("usuario", usuarioPrueba);
-
-        //Aquí se enlazan los elementos con sus respectivos en el xml.
+        //Aquí se enlazan los elementos con sus respectivos en el xml
         textoNombre = findViewById(R.id.editTextNombreLogin);
         textoContrasena = findViewById(R.id.editTextContrasenaLogin);
         MaterialButton botonIniciarSesion = findViewById(R.id.botonIniciarSesionLogin);
         MaterialButton botonRegistrarse = findViewById(R.id.botonRegistrarseLogin);
 
-        //Se indica que al pulsar en cualquiera de los botones se ejecutará el método OnClick.
+        dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
+
+        //Se indica que al pulsar en cualquiera de los botones se ejecutará el método OnClick
         botonIniciarSesion.setOnClickListener(this);
         botonRegistrarse.setOnClickListener(this);
-        dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
     }
 
     /**
-     * Dependiendo del botón al que se pulse el método realizará ddiferentes acciones.
+     * Dependiendo del botón al que se pulse el método realizará diferentes acciones
      *
-     * @param v The view that was clicked.
+     * @param v The view that was clicked
      */
     @Override
     public void onClick(View v) {
-        layout = findViewById(R.id.layoutLogin);
-        //Si el botón pulsado en el de iniciar sesión realizará las siguientes acciones.
+        LinearLayout layout = findViewById(R.id.layoutLogin);
+
+        //Si el botón pulsado en el de iniciar sesión realizará las siguientes acciones
         if (v.getId() == R.id.botonIniciarSesionLogin) {
-            //Se obtienen el correo y la contraseña escritos por el usuario para realizar las siguientes acciones.
-            String correo = textoNombre.getText().toString();
-            String contrasena = textoContrasena.getText().toString();
+            //Se obtienen el nombre y la contraseña escritos por el usuario para realizar las siguientes acciones
+            nombre = textoNombre.getText().toString().trim();
+            contrasena = textoContrasena.getText().toString().trim();
 
             /*Si alguno de los campos está vacío aparecerá un mensaje avisando al usuario de que todos los campos
-            deben ser rellenados.*/
-            if (correo.isEmpty() || contrasena.isEmpty()) {
-
+            deben ser rellenados*/
+            if (nombre.isEmpty() || contrasena.isEmpty()) {
                 Snackbar.make(layout, R.string.errorTextosVacíos, Snackbar.LENGTH_SHORT).show();
 
-            /*Sino si el correo y contraseña corresponden a los del usuario de prueba se le llevará a la actividad
-            MenuPrincipal junto con el Bundle con el Usuario correspondiente.*/
+            //En caso de que estén rellenados se buscará si los datos existen en la base de datos
             }else{
-                nombreUsuario=textoNombre.getText().toString().trim();
-                String contras=textoContrasena.getText().toString().trim();
-                dbRef.orderByChild("nombre").equalTo(nombreUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+                //Mira en la base de datos si existe algún usuario con el nombre insertado
+                dbRef.orderByChild("nombre").equalTo(nombre).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            if (snapshot.exists()) { //si el dato existe en la bbdd
-                               String contrasBBDD=ds.child("contrasena").getValue(String.class);
-                               if(contrasBBDD.equals(contras)){
-                                   Intent actividadMenuPrincipal = new Intent(Login.this, MenuPrincipal.class);
-                                   actividadMenuPrincipal.putExtra("usuarioInicio",textoNombre.getText().toString().trim());
-                                   startActivity(actividadMenuPrincipal);
-                               }else{
-                                   Snackbar.make(layout, R.string.errorInsertarDatosIniciarSesion, Snackbar.LENGTH_SHORT).show();
-                               }
-                            }else{
-                                Snackbar.make(layout, R.string.errorInsertarDatosIniciarSesion, Snackbar.LENGTH_SHORT).show();
+                        //Si hay algún usuario con ese nombre se ejecutará esta condición
+                        if (snapshot.exists()) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
+                                String contrasBBDD = ds.child("contrasena").getValue(String.class);
+
+                                /*Si la contraseña insertada es la misma que la de la base de datos se ejecutará
+                                esta condición*/
+                                if (contrasBBDD.equals(contrasena)) {
+                                    Intent actividadMenuPrincipal = new Intent(Login.this, MenuPrincipal.class);
+                                    actividadMenuPrincipal.putExtra("usuarioInicio", nombre);
+                                    startActivity(actividadMenuPrincipal);
+
+                                //Sino mostrará un mensaje de que la contraseña es incorrecta
+                                } else {
+                                    Snackbar.make(layout, R.string.errorContrasenaIncorrecta, Snackbar.LENGTH_SHORT).show();
+                                }
                             }
+
+                        //Sino mostrará un mensaje de que no existe ese usuario y que se registre
+                        }else{
+                            Snackbar.make(layout, R.string.errorInsertarNombreIniciarSesion, Snackbar.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -104,11 +96,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 });
             }
 
-        /*Si el botón pulsado es el de registrarse se le llevará a la actividad SignIn junto con el Bundle con
-        el usuario de prueba.*/
+        //Si el botón pulsado es el de registrarse se le llevará a la actividad SignIn
         } else if (v.getId() == R.id.botonRegistrarseLogin) {
             Intent actividadSignIn = new Intent(Login.this, SignIn.class);
-            actividadSignIn.putExtras(usuario);
             startActivity(actividadSignIn);
         }
     }

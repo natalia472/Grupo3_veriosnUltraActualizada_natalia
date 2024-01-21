@@ -1,4 +1,5 @@
 package com.example.grupo3;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +30,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
 
         encabezado.setOnMenuItemClickListener(this);
         bottomNavigation.setOnItemSelectedListener(this);
+
         navController.navigate(R.id.fragmentModulos, usuario);
     }
 
@@ -47,7 +49,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
             startActivity(actividadAcercaDe);
         } else if (item.getItemId() == R.id.itemCerrarSesion) {
             realizado = true;
-            /* esta linea de codigo cierra sesion con el usuario actual para que
+            /*Esta linea de codigo cierra sesion con el usuario actual para que
             una vez seleccionada la opcion de cerrar sesion, se desvincule y pueda
             dar paso a un nuevo usuario registrado para luego mostrar sus datos en
             el perfil de usuario */
@@ -58,6 +60,7 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationBarVie
         }
         return realizado;
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         boolean realizado = false;
