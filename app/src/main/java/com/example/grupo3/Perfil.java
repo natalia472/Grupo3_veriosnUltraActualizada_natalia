@@ -21,10 +21,7 @@ import tablas.Usuario;
 
 public class Perfil extends AppCompatActivity implements View.OnClickListener {
     private Bundle usuario;
-    DatabaseReference dbRef;
-    Usuario usu;
-    String nomUsuario;
-    TextView textoNombre,textoCorreo;
+    private DatabaseReference dbRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +29,15 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_perfil);
 
         usuario = getIntent().getExtras();
-       // Usuario datosUsuario = usuario.getParcelable("usuario");
 
         MaterialToolbar encabezado = findViewById(R.id.encabezadoPerfil);
-        textoNombre = findViewById(R.id.textViewNombrePerfil);
-        textoCorreo = findViewById(R.id.textViewCorreoPerfil);
+        TextView textoNombre = findViewById(R.id.textViewNombrePerfil);
+        TextView textoCorreo = findViewById(R.id.textViewCorreoPerfil);
         FloatingActionButton botonEditarPerfil = findViewById(R.id.botonEditarPerfil);
 
-
         dbRef= FirebaseDatabase.getInstance().getReference().child("usu");
-        usu=new Usuario();
-        nomUsuario=getIntent().getStringExtra("usuarioInicio");
-        dbRef.orderByChild("nombre").equalTo(nomUsuario).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        dbRef.orderByChild("nombre").equalTo(usuario.getString("usuarioInicio")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds:snapshot.getChildren()){
@@ -55,10 +49,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-      /*  textoNombre.setText(datosUsuario.getNombre());
-        textoCorreo.setText(datosUsuario.getCorreo());*/
-
 
         encabezado.setNavigationOnClickListener(this);
         botonEditarPerfil.setOnClickListener(this);

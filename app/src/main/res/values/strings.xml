@@ -43,9 +43,9 @@
     <string name="textoJuanaPaulaSierra">Juana Paula Sierra Melquiades</string>
 
     <!-- Textos de errores -->
-    <string name="errorInsertarDatosIniciarSesion">El nombre o la contraseña son incorrectos</string>
+    <string name="errorInsertarNombreIniciarSesion">El nombre escrito no existe, porfavor regístrese</string>
+    <string name="errorContrasenaIncorrecta">La contraseña insertada es incorrecta</string>
     <string name="errorNombreYaExistente">El nombre insertado ya existe</string>
     <string name="errorContrasenaYConfirmacionErroneas">La contraseña y su confirmación no son la misma</string>
-    <string name="errorContrasenaIncorrecta">La contraseña insertada es incorrecta</string>
     <string name="errorTextosVacíos">Debes rellenar todos los textos</string>
 </resources>

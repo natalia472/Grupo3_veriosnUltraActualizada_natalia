@@ -18,16 +18,13 @@ import java.util.ArrayList;
 import tablas.Tarea;
 
 public class AdaptadorTareas extends ArrayAdapter<Tarea> {
-
     private ArrayList<Tarea> lista;
     private SparseBooleanArray selectedItems; // Para almacenar la información de selección
-
     private OnItemClickListener onItemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
-
 
     public AdaptadorTareas(Context contexto, ArrayList<Tarea> lista) {
         super(contexto, R.layout.tareas, lista);
@@ -39,6 +36,7 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
         selectedItems.put(position, isSelected);
         notifyDataSetChanged();
     }
+
     public interface OnItemClickListener {
         void onDeleteButtonClick(int position);
     }
@@ -46,22 +44,18 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         LayoutInflater mostrado = LayoutInflater.from(getContext());
         View elemento = mostrado.inflate(R.layout.tareas, parent, false);
-
 
         TextView nombreModulo = elemento.findViewById(R.id.moduloTareas);
         TextView nombreTarea = elemento.findViewById(R.id.nombreTarea);
         TextView fechaSeleccionada = elemento.findViewById(R.id.fechaEntregaTarea);
+        MaterialButton botonEliminarTarea = elemento.findViewById(R.id.botonEliminarTarea);
 
-        //asociamos elementos
+        //Asociamos elementos
         nombreModulo.setText(lista.get(position).getModulo());
         nombreTarea.setText(lista.get(position).getTarea());
         fechaSeleccionada.setText(lista.get(position).getFechaEntrega());
-
-
-
 
         // Verifica si el elemento está seleccionado y cambia su apariencia
         if (selectedItems.get(position)) {
@@ -70,7 +64,6 @@ public class AdaptadorTareas extends ArrayAdapter<Tarea> {
             elemento.setBackgroundColor(getContext().getResources().getColor(android.R.color.transparent));
         }
 
-        MaterialButton botonEliminarTarea = elemento.findViewById(R.id.botonEliminarTarea);
         botonEliminarTarea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

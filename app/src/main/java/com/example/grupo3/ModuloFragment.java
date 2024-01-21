@@ -19,50 +19,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import tablas.Modulo;
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ModuloFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ModuloFragment extends Fragment {
-    Bundle usuario=new Bundle();
-    DatabaseReference dbRef;
-    Modulo mod;
-    ArrayList<Modulo> listaModulos;
-    AdaptadorCards miAdaptador;
-    String nom,ciclo,usu;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private Bundle usuario = new Bundle();
+    private DatabaseReference dbRef;
+    private ArrayList<Modulo> listaModulos;
+    private AdaptadorCards miAdaptador;
+    private String nom,ciclo,usu;
     private ListView contenedorVista;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public ModuloFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AsignaturasFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ModuloFragment newInstance(String param1, String param2) {
-        ModuloFragment fragment = new ModuloFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,27 +42,26 @@ public class ModuloFragment extends Fragment {
 
     @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_modulo, container, false);
-        contenedorVista = view.findViewById(R.id.listaCards);
+
         dbRef= FirebaseDatabase.getInstance().getReference().child("mod");
-        mod=new Modulo();
+
+        contenedorVista = view.findViewById(R.id.listaCards);
+        FloatingActionButton botonNuevoModulo=(FloatingActionButton) view.findViewById(R.id.floatingABmodulo);
 
         contenedorVista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);//para que puedan seleccionarse de forma individual
         listaModulos=new ArrayList<>();
 
-        if(usuario.isEmpty()){
-
-        }else{
+        if(!usuario.isEmpty()) {
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        //Modulo m=ds.getValue(Modulo.class);
                         nom = ds.child("modulo").getValue(String.class);
                         ciclo = ds.child("ciclo").getValue(String.class);
                         usu = ds.child("usuario").getValue(String.class);
+
                         if(usuario.getString("usuarioInicio").equals(usu)){
                             listaModulos.add(new Modulo(nom, ciclo, usu));
                         }
@@ -103,6 +71,7 @@ public class ModuloFragment extends Fragment {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {}
             });
+
             miAdaptador = new AdaptadorCards(getContext(),listaModulos);
             contenedorVista.setAdapter(miAdaptador);
             // Configurar el listener para eliminar la tarjeta al hacer clic en el botón
@@ -112,14 +81,10 @@ public class ModuloFragment extends Fragment {
                     AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
                     builder.setTitle("Mensaje Informativo");
                     builder.setMessage("Vas a eliminar un módulo, si estás seguro haz clic en 'ELIMINAR'");
-                    builder.setIcon(android.R.drawable.ic_dialog_info);
+                    builder.setIcon(R.drawable.info);
                     builder.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            //borrar la card con firebase
-                            //String nombreM=nombreModulo.getText().toString().trim();
-                            //dbRef.child(position).removeValue();
-
                             // Utiliza tu lista (listaModulos) y el método remove() para eliminar el elemento
                             String clave=listaModulos.get(position).getModulo(); //borra el modulo que este en la posicion que se ha seleccionado para borrar
                             dbRef.child(clave).removeValue();
@@ -147,7 +112,7 @@ public class ModuloFragment extends Fragment {
                     cuadroDialogo.show();
                 }
             });
-            FloatingActionButton botonNuevoModulo=(FloatingActionButton) view.findViewById(R.id.floatingABmodulo);
+
             botonNuevoModulo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,6 +122,7 @@ public class ModuloFragment extends Fragment {
                 }
             });
         }
+
         return view;
     }
 }
